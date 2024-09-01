@@ -31,7 +31,7 @@ class TopLayerSpecification(BaseModel):
 
     model_config = ConfigDict(validate_assignment=True)
 
-    top_layer_type: TopLayerType = type
+    top_layer_type: TopLayerType | None = None
     """[TopLayerType] The type of toplayer at this location - instance variable"""
     initial_damage: float | None = None
     """[float] The type of toplayer at this location - instance variable"""

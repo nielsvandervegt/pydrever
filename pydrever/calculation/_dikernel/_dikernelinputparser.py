@@ -202,24 +202,24 @@ def __add_output_location_specifications_to_builder(
                         ),
                     )
                 )
-            case GrassOvertoppingLayerSpecification():
-                builder.AddGrassOvertoppingLocation(
-                    __create_grass_overtopping_construction_properties(
-                        location.x_position,
-                        location.top_layer_specification,
-                        __get_grass_wave_overtopping_calculation_settings(
-                            location, settings
-                        ),
-                    )
-                )
-            case GrassWaveRunupLayerSpecification():
-                builder.AddGrassWaveRunupRayleighLocation(
-                    __create_grass_wave_runup_construction_properties(
-                        location.x_position,
-                        location.top_layer_specification,
-                        __get_grass_wave_runup_calculation_settings(location, settings),
-                    )
-                )
+            # case GrassOvertoppingLayerSpecification():
+            #     builder.AddGrassOvertoppingLocation(
+            #         __create_grass_overtopping_construction_properties(
+            #             location.x_position,
+            #             location.top_layer_specification,
+            #             __get_grass_wave_overtopping_calculation_settings(
+            #                 location, settings
+            #             ),
+            #         )
+            #     )
+            # case GrassWaveRunupLayerSpecification():
+            #     builder.AddGrassWaveRunupRayleighLocation(
+            #         __create_grass_wave_runup_construction_properties(
+            #             location.x_position,
+            #             location.top_layer_specification,
+            #             __get_grass_wave_runup_calculation_settings(location, settings),
+            #         )
+            #     )
     return builder
 
 
@@ -228,9 +228,9 @@ def __create_asphalt_wave_impact_construction_properties(
     layer: AsphaltLayerSpecification,
     settings: AsphaltCalculationSettings,
 ):
-    properties = AsphaltRevetmentWaveImpactLocationConstructionProperties(
+    properties = AsphaltWaveImpactLocationConstructionProperties(
         x_position,
-        AsphaltRevetmentTopLayerType.HydraulicAsphaltConcrete,
+        AsphaltWaveImpactTopLayerType.HydraulicAsphaltConcrete,
         layer.flexural_strength,
         layer.soil_elasticity,
         layer.upper_layer_thickness,
@@ -271,9 +271,9 @@ def __create_natural_stone_construction_properties(
     layer: NordicStoneLayerSpecification,
     settings: NaturalStoneCalculationSettings,
 ):
-    properties = NaturalStoneRevetmentLocationConstructionProperties(
+    properties = NaturalStoneWaveImpactLocationConstructionProperties(
         x_position,
-        NaturalStoneRevetmentTopLayerType.NordicStone,
+        NaturalStoneWaveImpactTopLayerType.NordicStone,
         layer.top_layer_thickness,
         layer.relative_density,
     )
@@ -358,11 +358,11 @@ def __create_grass_wave_impact_construction_properties(
     settings: GrassWaveImpactCalculationSettings,
 ):
     top_layer_type = (
-        GrassRevetmentTopLayerType.ClosedSod
+        GrassTopLayerType.ClosedSod
         if layer.top_layer_type == TopLayerType.GrassClosedSod
-        else GrassRevetmentTopLayerType.OpenSod
+        else GrassTopLayerType.OpenSod
     )
-    properties = GrassRevetmentWaveImpactLocationConstructionProperties(
+    properties = GrassWaveImpactLocationConstructionProperties(
         x_position, top_layer_type
     )
 
@@ -414,9 +414,9 @@ def __create_grass_overtopping_construction_properties(
     topLayerType = None
     match layer.top_layer_type:
         case TopLayerType.GrassClosedSod:
-            topLayerType = GrassRevetmentTopLayerType.ClosedSod
+            topLayerType = GrassTopLayerType.ClosedSod
         case TopLayerType.GrassOpenSod:
-            topLayerType = GrassRevetmentTopLayerType.OpenSod
+            topLayerType = GrassTopLayerType.OpenSod
 
     properties = GrassRevetmentOvertoppingLocationConstructionProperties(
         x_position, topLayerType
@@ -464,9 +464,9 @@ def __create_grass_wave_runup_construction_properties(
     topLayerType = None
     match layer.top_layer_type:
         case TopLayerType.GrassClosedSod:
-            topLayerType = GrassRevetmentTopLayerType.ClosedSod
+            topLayerType = GrassTopLayerType.ClosedSod
         case TopLayerType.GrassOpenSod:
-            topLayerType = GrassRevetmentTopLayerType.OpenSod
+            topLayerType = GrassTopLayerType.OpenSod
 
     properties = GrassRevetmentWaveRunupRayleighLocationConstructionProperties(
         x_position, layer.outer_slope, topLayerType

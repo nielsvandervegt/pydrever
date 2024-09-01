@@ -55,13 +55,13 @@ def calculate_time_line(
         _type_: _description_
     """
     wave_angle = _cs.HydraulicLoadFunctions.WaveAngle(wave_direction, dike_orientation)
-    wave_angle_impact = _cs.GrassRevetmentWaveImpactFunctions.WaveAngleImpact(
+    wave_angle_impact = _cs.GrassWaveImpactFunctions.WaveAngleImpact(
         wave_angle, n, q, r
     )
-    minimum_wave_height = _cs.GrassRevetmentWaveImpactFunctions.MinimumWaveHeight(
+    minimum_wave_height = _cs.GrassWaveImpactFunctions.MinimumWaveHeight(
         a, b, c, te_max
     )
-    maximum_wave_height = _cs.GrassRevetmentWaveImpactFunctions.MaximumWaveHeight(
+    maximum_wave_height = _cs.GrassWaveImpactFunctions.MaximumWaveHeight(
         a, b, c, te_min
     )
     if min(wave_heights) < minimum_wave_height:
@@ -76,7 +76,7 @@ def calculate_time_line(
         if wave_height < minimum_wave_height or wave_height > maximum_wave_height:
             times.append(None)
         else:
-            wave_height_impact = _cs.GrassRevetmentWaveImpactFunctions.WaveHeightImpact(
+            wave_height_impact = _cs.GrassWaveImpactFunctions.WaveHeightImpact(
                 minimum_wave_height,
                 maximum_wave_height,
                 wave_angle_impact,
@@ -84,7 +84,7 @@ def calculate_time_line(
             )
 
             times.append(
-                _cs.GrassRevetmentWaveImpactFunctions.TimeLine(
+                _cs.GrassWaveImpactFunctions.TimeLine(
                     wave_height_impact, a, b, c
                 )
             )

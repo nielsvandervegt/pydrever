@@ -94,7 +94,17 @@ def __create_output_location(
     Switch between the various type of possible output (different types of calculation)
     """
     match c_output_location:
-        case AsphaltRevetmentWaveImpactLocationDependentOutput():
+        case NaturalStoneWaveImpactLocationDependentOutput():
+            return __create_natural_stone_output_location(
+                x_position,
+                c_output_location.Z,
+                time_of_failure,
+                c_output_location.Resistance,
+                damage_development,
+                damage_increment,
+                c_output_location.TimeDependentOutputItems,
+            )
+        case AsphaltWaveImpactLocationDependentOutput():
             return __create_asphalt_wave_impact_output_location(
                 x_position,
                 c_output_location.Z,
@@ -108,15 +118,7 @@ def __create_output_location(
                 damage_increment,
                 c_output_location.TimeDependentOutputItems,
             )
-        case GrassRevetmentOvertoppingLocationDependentOutput():
-            return __create_grass_overtopping_output_location(
-                x_position,
-                time_of_failure,
-                damage_development,
-                damage_increment,
-                c_output_location.TimeDependentOutputItems,
-            )
-        case GrassRevetmentWaveImpactLocationDependentOutput():
+        case GrassWaveImpactLocationDependentOutput():
             return __create_grass_wave_impact_output_location(
                 x_position,
                 c_output_location.Z,
@@ -127,25 +129,23 @@ def __create_output_location(
                 damage_increment,
                 c_output_location.TimeDependentOutputItems,
             )
-        case GrassRevetmentWaveRunupRayleighLocationDependentOutput():
-            return __create_grass_wave_runup_output_location(
-                x_position,
-                c_output_location.Z,
-                time_of_failure,
-                damage_development,
-                damage_increment,
-                c_output_location.TimeDependentOutputItems,
-            )
-        case NaturalStoneRevetmentLocationDependentOutput():
-            return __create_natural_stone_output_location(
-                x_position,
-                c_output_location.Z,
-                time_of_failure,
-                c_output_location.Resistance,
-                damage_development,
-                damage_increment,
-                c_output_location.TimeDependentOutputItems,
-            )
+        # case GrassRevetmentWaveRunupRayleighLocationDependentOutput():
+        #     return __create_grass_wave_runup_output_location(
+        #         x_position,
+        #         c_output_location.Z,
+        #         time_of_failure,
+        #         damage_development,
+        #         damage_increment,
+        #         c_output_location.TimeDependentOutputItems,
+        #     )
+        # case GrassRevetmentOvertoppingLocationDependentOutput():
+        #     return __create_grass_overtopping_output_location(
+        #         x_position,
+        #         time_of_failure,
+        #         damage_development,
+        #         damage_increment,
+        #         c_output_location.TimeDependentOutputItems,
+        #     )
 
 
 def __create_asphalt_wave_impact_output_location(

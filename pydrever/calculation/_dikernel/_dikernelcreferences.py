@@ -46,30 +46,31 @@ from DiKErnel.Core.Data import (
     ICalculationInput,
 )
 
-from DiKErnel.Integration.Data.AsphaltRevetmentWaveImpact import (
-    AsphaltRevetmentWaveImpactLocationDependentOutput,
-    AsphaltRevetmentWaveImpactLocationConstructionProperties,
-    AsphaltRevetmentTopLayerType,
+from DiKErnel.Integration.Data.NaturalStoneWaveImpact import (
+    NaturalStoneWaveImpactLocationDependentOutput,
+    NaturalStoneWaveImpactLocationConstructionProperties,
+    NaturalStoneWaveImpactTopLayerType,
 )
-from DiKErnel.Integration.Data.GrassRevetment import GrassRevetmentTopLayerType
-from DiKErnel.Integration.Data.GrassRevetmentOvertopping import (
-    GrassRevetmentOvertoppingLocationDependentOutput,
-    GrassRevetmentOvertoppingLocationConstructionProperties,
+from DiKErnel.Integration.Data.AsphaltWaveImpact import (
+    AsphaltWaveImpactLocationDependentOutput,
+    AsphaltWaveImpactLocationConstructionProperties,
+    AsphaltWaveImpactTopLayerType,
 )
-from DiKErnel.Integration.Data.GrassRevetmentWaveImpact import (
-    GrassRevetmentWaveImpactLocationDependentOutput,
-    GrassRevetmentWaveImpactLocationConstructionProperties,
+from DiKErnel.Integration.Data.Grass import (
+    GrassTopLayerType
 )
-from DiKErnel.Integration.Data.NaturalStoneRevetment import (
-    NaturalStoneRevetmentLocationDependentOutput,
-    NaturalStoneRevetmentLocationConstructionProperties,
-    NaturalStoneRevetmentTopLayerType,
+from DiKErnel.Integration.Data.GrassWaveImpact import (
+    GrassWaveImpactLocationDependentOutput,
+    GrassWaveImpactLocationConstructionProperties,
 )
-
-from DiKErnel.Integration.Data.GrassRevetmentWaveRunup import (
-    GrassRevetmentWaveRunupRayleighLocationDependentOutput,
-    GrassRevetmentWaveRunupRayleighLocationConstructionProperties,
-)
+# from DiKErnel.Integration.Data.GrassRevetmentOvertopping import (
+#     GrassRevetmentOvertoppingLocationDependentOutput,
+#     GrassRevetmentOvertoppingLocationConstructionProperties,
+# )
+# from DiKErnel.Integration.Data.GrassRevetmentWaveRunup import (
+#     GrassRevetmentWaveRunupRayleighLocationDependentOutput,
+#     GrassRevetmentWaveRunupRayleighLocationConstructionProperties,
+# )
 
 from DiKErnel.Integration import CalculationInputBuilder
 
@@ -77,6 +78,6 @@ from DiKErnel.Util import EventType
 
 from DiKErnel.FunctionLibrary import HydraulicLoadFunctions
 
-from DiKErnel.FunctionLibrary.GrassRevetmentWaveImpact import (
-    GrassRevetmentWaveImpactFunctions,
+from DiKErnel.FunctionLibrary.GrassWaveImpact import (
+    GrassWaveImpactFunctions,
 )
