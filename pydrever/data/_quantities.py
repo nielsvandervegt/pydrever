@@ -26,15 +26,15 @@ class TimeDependentOutputQuantity(Enum):
     DamageIncrement = "damage_increment"  # All
     MaximumPeakStress = "maximum_peak_stress"  # Asphalt
     AverageNumberOfWaves = (
-        "average_number_of_waves"  # Asphalt, GrassOvertopping, GrassWaveRunup
+        "average_number_of_waves"  # Asphalt, GrassWaveOvertopping, GrassWaveRunup
     )
     VerticalDistanceWaterLevelElevation = (
-        "vertical_distance_water_level_elevation"  # GrassOvertopping, GrassWaveRunup
+        "vertical_distance_water_level_elevation"  # GrassWaveOvertopping, GrassWaveRunup
     )
     RepresentativeWaveRunup2P = (
-        "representative_wave_runup_2p"  # GrassOvertopping, GrassWaveRunup
+        "representative_wave_runup_2p"  # GrassWaveOvertopping, GrassWaveRunup
     )
-    CumulativeOverload = "cumulative_overload"  # GrassOvertopping, GrassWaveRunup
+    CumulativeOverload = "cumulative_overload"  # GrassWaveOvertopping, GrassWaveRunup
     LoadingRevetment = "loading_revetment"  # GrassWaveImpact, NaturalStone
     UpperLimitLoading = "upper_limit_loading"  # GrassWaveImpact, NaturalStone
     LowerLimitLoading = "lower_limit_loading"  # GrassWaveImpact, NaturalStone

@@ -27,10 +27,12 @@ from pydrever.data import (
     NordicStoneLayerSpecification,
     GrassWaveImpactLayerSpecification,
     GrassWaveRunupLayerSpecification,
-    GrassOvertoppingLayerSpecification,
+    GrassWaveOvertoppingRayleighDiscreteLayerSpecification,
+    GrassWaveOvertoppingRayleighAnalyticalLayerSpecification,
     CalculationSettings,
     AsphaltCalculationSettings,
-    GrassWaveOvertoppingCalculationSettings,
+    GrassWaveOvertoppingRayleighDiscreteCalculationSettings,
+    GrassWaveOvertoppingRayleighAnalyticalCalculationSettings,
     GrassWaveImpactCalculationSettings,
     GrassWaveRunupCalculationSettings,
     NaturalStoneCalculationSettings,
@@ -201,16 +203,6 @@ def __add_output_location_specifications_to_builder(
                         ),
                     )
                 )
-            # case GrassOvertoppingLayerSpecification():
-            #     builder.AddGrassOvertoppingLocation(
-            #         __create_grass_overtopping_construction_properties(
-            #             location.x_position,
-            #             location.top_layer_specification,
-            #             __get_grass_wave_overtopping_calculation_settings(
-            #                 location, settings
-            #             ),
-            #         )
-            #     )
             # case GrassWaveRunupLayerSpecification():
             #     builder.AddGrassWaveRunupRayleighLocation(
             #         __create_grass_wave_runup_construction_properties(
@@ -219,6 +211,26 @@ def __add_output_location_specifications_to_builder(
             #             __get_grass_wave_runup_calculation_settings(location, settings),
             #         )
             #     )
+            case GrassWaveOvertoppingRayleighDiscreteLayerSpecification():
+                builder.AddGrassWaveOvertoppingRayleighDiscreteLocation(
+                    __create_grass_wave_overtopping_rayleigh_discrete_construction_properties(
+                        location.x_position,
+                        location.top_layer_specification,
+                        __get_grass_wave_overtopping_rayleigh_discrete_calculation_settings(
+                            location, settings
+                        ),
+                    )
+                )
+            case GrassWaveOvertoppingRayleighAnalyticalLayerSpecification():
+                builder.AddGrassWaveOvertoppingRayleighAnalyticalLocation(
+                    __create_grass_wave_overtopping_rayleigh_analytical_construction_properties(
+                        location.x_position,
+                        location.top_layer_specification,
+                        __get_grass_wave_overtopping_rayleigh_analytical_calculation_settings(
+                            location, settings
+                        ),
+                    )
+                )
     return builder
 
 
@@ -405,56 +417,6 @@ def __create_grass_wave_impact_construction_properties(
     return properties
 
 
-def __create_grass_overtopping_construction_properties(
-    x_position: float,
-    layer: GrassOvertoppingLayerSpecification,
-    settings: GrassWaveOvertoppingCalculationSettings,
-):
-    topLayerType = None
-    match layer.top_layer_type:
-        case TopLayerType.GrassClosedSod:
-            topLayerType = GrassTopLayerType.ClosedSod
-        case TopLayerType.GrassOpenSod:
-            topLayerType = GrassTopLayerType.OpenSod
-
-    properties = GrassRevetmentOvertoppingLocationConstructionProperties(
-        x_position, topLayerType
-    )
-
-    topLayer = __get_first_grass_cumulative_overload_toplayer_of_type(
-        settings, layer.top_layer_type
-    )
-
-    properties.InitialDamage = layer.initial_damage
-    properties.FailureNumber = settings.failure_number if settings is not None else None
-    properties.CriticalCumulativeOverload = (
-        topLayer.critical_cumulative_overload if topLayer is not None else None
-    )
-    properties.CriticalFrontVelocity = (
-        topLayer.critical_front_velocity if topLayer is not None else None
-    )
-    properties.IncreasedLoadTransitionAlphaM = layer.increased_load_transition_alpha_m
-    properties.ReducedStrengthTransitionAlphaS = layer.increased_load_transition_alpha_s
-    properties.AverageNumberOfWavesCtm = (
-        settings.average_number_of_waves_factor_ctm if settings is not None else None
-    )
-    properties.FixedNumberOfWaves = (
-        settings.fixed_number_of_waves if settings is not None else None
-    )
-    properties.FrontVelocityCwo = (
-        settings.front_velocity_c_wo if settings is not None else None
-    )
-    properties.AccelerationAlphaAForCrest = (
-        settings.acceleration_alpha_a_for_crest if settings is not None else None
-    )
-    properties.AccelerationAlphaAForInnerSlope = (
-        settings.acceleration_alpha_a_for_inner_slope if settings is not None else None
-    )
-    properties.DikeHeight = settings.dike_height if settings is not None else None
-
-    return properties
-
-
 def __create_grass_wave_runup_construction_properties(
     x_position: float,
     layer: GrassWaveRunupLayerSpecification,
@@ -515,6 +477,103 @@ def __create_grass_wave_runup_construction_properties(
     properties.CriticalFrontVelocity = (
         top_layer.critical_front_velocity if top_layer is not None else None
     )
+
+
+def __create_grass_wave_overtopping_rayleigh_discrete_construction_properties(
+    x_position: float,
+    layer: GrassWaveOvertoppingRayleighDiscreteLayerSpecification,
+    settings: GrassWaveOvertoppingRayleighDiscreteCalculationSettings,
+):
+    topLayerType = None
+    match layer.top_layer_type:
+        case TopLayerType.GrassClosedSod:
+            topLayerType = GrassTopLayerType.ClosedSod
+        case TopLayerType.GrassOpenSod:
+            topLayerType = GrassTopLayerType.OpenSod
+
+    properties = GrassWaveOvertoppingRayleighDiscreteLocationConstructionProperties(
+        x_position, topLayerType
+    )
+
+    topLayer = __get_first_grass_cumulative_overload_toplayer_of_type(
+        settings, layer.top_layer_type
+    )
+
+    properties.InitialDamage = layer.initial_damage
+    properties.FailureNumber = settings.failure_number if settings is not None else None
+    properties.CriticalCumulativeOverload = (
+        topLayer.critical_cumulative_overload if topLayer is not None else None
+    )
+    properties.CriticalFrontVelocity = (
+        topLayer.critical_front_velocity if topLayer is not None else None
+    )
+    properties.IncreasedLoadTransitionAlphaM = layer.increased_load_transition_alpha_m
+    properties.ReducedStrengthTransitionAlphaS = layer.increased_load_transition_alpha_s
+    properties.AverageNumberOfWavesCtm = (
+        settings.average_number_of_waves_factor_ctm if settings is not None else None
+    )
+    properties.FixedNumberOfWaves = (
+        settings.fixed_number_of_waves if settings is not None else None
+    )
+    properties.FrontVelocityCwo = (
+        settings.front_velocity_c_wo if settings is not None else None
+    )
+    properties.AccelerationAlphaAForCrest = (
+        settings.acceleration_alpha_a_for_crest if settings is not None else None
+    )
+    properties.AccelerationAlphaAForInnerSlope = (
+        settings.acceleration_alpha_a_for_inner_slope if settings is not None else None
+    )
+    properties.DikeHeight = settings.dike_height if settings is not None else None
+
+    return properties
+
+
+def __create_grass_wave_overtopping_rayleigh_analytical_construction_properties(
+    x_position: float,
+    layer: GrassWaveOvertoppingRayleighAnalyticalLayerSpecification,
+    settings: GrassWaveOvertoppingRayleighAnalyticalCalculationSettings,
+):
+    topLayerType = None
+    match layer.top_layer_type:
+        case TopLayerType.GrassClosedSod:
+            topLayerType = GrassTopLayerType.ClosedSod
+        case TopLayerType.GrassOpenSod:
+            topLayerType = GrassTopLayerType.OpenSod
+
+    properties = GrassWaveOvertoppingRayleighLocationConstructionProperties(
+        x_position, topLayerType
+    )
+
+    topLayer = __get_first_grass_cumulative_overload_toplayer_of_type(
+        settings, layer.top_layer_type
+    )
+
+    properties.InitialDamage = layer.initial_damage
+    properties.FailureNumber = settings.failure_number if settings is not None else None
+    properties.CriticalCumulativeOverload = (
+        topLayer.critical_cumulative_overload if topLayer is not None else None
+    )
+    properties.CriticalFrontVelocity = (
+        topLayer.critical_front_velocity if topLayer is not None else None
+    )
+    properties.IncreasedLoadTransitionAlphaM = layer.increased_load_transition_alpha_m
+    properties.ReducedStrengthTransitionAlphaS = layer.increased_load_transition_alpha_s
+    properties.AverageNumberOfWavesCtm = (
+        settings.average_number_of_waves_factor_ctm if settings is not None else None
+    )
+    properties.FrontVelocityCwo = (
+        settings.front_velocity_c_wo if settings is not None else None
+    )
+    properties.AccelerationAlphaAForCrest = (
+        settings.acceleration_alpha_a_for_crest if settings is not None else None
+    )
+    properties.AccelerationAlphaAForInnerSlope = (
+        settings.acceleration_alpha_a_for_inner_slope if settings is not None else None
+    )
+    properties.DikeHeight = settings.dike_height if settings is not None else None
+
+    return properties
 
 
 def __convert_to_cList(lst: list[list[float]]):
@@ -653,30 +712,6 @@ def __get_grass_wave_impact_calculation_settings(
     )
 
 
-def __get_grass_wave_overtopping_calculation_settings(
-    location: OutputLocationSpecification, settings: list[CalculationSettings]
-) -> GrassWaveOvertoppingCalculationSettings:
-    return (
-        location.calculation_settings
-        if isinstance(
-            location.calculation_settings,
-            GrassWaveOvertoppingCalculationSettings,
-        )
-        else (
-            next(
-                (
-                    ci
-                    for ci in settings
-                    if isinstance(ci, GrassWaveOvertoppingCalculationSettings)
-                ),
-                None,
-            )
-            if settings is not None
-            else None
-        )
-    )
-
-
 def __get_grass_wave_runup_calculation_settings(
     location: OutputLocationSpecification, settings: list[CalculationSettings]
 ) -> GrassWaveRunupCalculationSettings:
@@ -692,6 +727,54 @@ def __get_grass_wave_runup_calculation_settings(
                     ci
                     for ci in settings
                     if isinstance(ci, GrassWaveRunupCalculationSettings)
+                ),
+                None,
+            )
+            if settings is not None
+            else None
+        )
+    )
+
+
+def __get_grass_wave_overtopping_rayleigh_discrete_calculation_settings(
+    location: OutputLocationSpecification, settings: list[CalculationSettings]
+) -> GrassWaveOvertoppingRayleighDiscreteCalculationSettings:
+    return (
+        location.calculation_settings
+        if isinstance(
+            location.calculation_settings,
+            GrassWaveOvertoppingRayleighDiscreteCalculationSettings,
+        )
+        else (
+            next(
+                (
+                    ci
+                    for ci in settings
+                    if isinstance(ci, GrassWaveOvertoppingRayleighDiscreteCalculationSettings)
+                ),
+                None,
+            )
+            if settings is not None
+            else None
+        )
+    )
+
+
+def __get_grass_wave_overtopping_rayleigh_analytical_calculation_settings(
+    location: OutputLocationSpecification, settings: list[CalculationSettings]
+) -> GrassWaveOvertoppingRayleighAnalyticalCalculationSettings:
+    return (
+        location.calculation_settings
+        if isinstance(
+            location.calculation_settings,
+            GrassWaveOvertoppingRayleighAnalyticalCalculationSettings,
+        )
+        else (
+            next(
+                (
+                    ci
+                    for ci in settings
+                    if isinstance(ci, GrassWaveOvertoppingRayleighAnalyticalCalculationSettings)
                 ),
                 None,
             )

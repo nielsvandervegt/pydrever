@@ -37,9 +37,11 @@ hydrodynamic_conditions = HydrodynamicConditions(
 from pydrever.data import (
     DikernelInput,
     TopLayerType,
-    GrassWaveImpactLayerSpecification,
-    AsphaltLayerSpecification,
     NordicStoneLayerSpecification,
+    AsphaltLayerSpecification,
+    GrassWaveImpactLayerSpecification,
+    GrassWaveOvertoppingRayleighDiscreteLayerSpecification,
+    GrassWaveOvertoppingRayleighAnalyticalLayerSpecification,
 )
 
 input = DikernelInput(dike_schematization=dike_schematization, hydrodynamic_input=hydrodynamic_conditions)
@@ -72,13 +74,25 @@ input.add_output_location(
 input.add_output_location(
         x_location=16.0, 
         top_layer_specification=GrassWaveImpactLayerSpecification(
-            top_layer_type=TopLayerType.GrassClosedSod)
+            top_layer_type=TopLayerType.GrassOpenSod)
             )
 
 input.add_output_location(
         x_location=16.0, 
         top_layer_specification=GrassWaveImpactLayerSpecification(
             top_layer_type=TopLayerType.GrassOpenSod)
+            )
+
+input.add_output_location(
+        x_location=18.0, 
+        top_layer_specification=GrassWaveOvertoppingRayleighDiscreteLayerSpecification(
+            top_layer_type=TopLayerType.GrassClosedSod)
+            )
+
+input.add_output_location(
+        x_location=18.0, 
+        top_layer_specification=GrassWaveOvertoppingRayleighAnalyticalLayerSpecification(
+            top_layer_type=TopLayerType.GrassClosedSod)
             )
 
 from pydrever.calculation import Dikernel

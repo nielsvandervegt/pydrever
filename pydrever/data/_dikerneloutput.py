@@ -48,46 +48,6 @@ class DikernelOutputLocation(BaseModel):
         )
 
 
-class AsphaltWaveImpactOutputLocation(DikernelOutputLocation):
-    z_position: float
-    outer_slope: float
-    log_flexural_strength: float
-    stiffness_relation: float
-    computational_thickness: float
-    equivalent_elastic_modulus: float
-    maximum_peak_stress: list[float]
-    average_number_of_waves: list[float]
-
-
-class GrassOvertoppingOutputLocation(DikernelOutputLocation):
-    representative_wave_runup_2p: list[float]
-    cumulative_overload: list[float]
-    average_number_of_waves: list[float]
-    vertical_distance_water_level_elevation: list[float]
-
-
-class GrassWaveRunupOutputLocation(DikernelOutputLocation):
-    z_position: float
-    vertical_distance_water_level_elevation: list[float]
-    representative_wave_runup_2p: list[float]
-    wave_angle: list[float | None]
-    wave_angle_impact: list[float | None]
-    cumulative_overload: list[float]
-    average_number_of_waves: list[float]
-
-
-class GrassWaveImpactOutputLocation(DikernelOutputLocation):
-    z_position: float
-    minimum_wave_height: float
-    maximum_wave_height: float
-    loading_revetment: list[float]
-    upper_limit_loading: list[float]
-    lower_limit_loading: list[float]
-    wave_angle: list[float | None]
-    wave_angle_impact: list[float | None]
-    wave_height_impact: list[float | None]
-
-
 class NaturalStoneOutputLocation(DikernelOutputLocation):
     z_position: float
     resistance: float
@@ -109,3 +69,44 @@ class NaturalStoneOutputLocation(DikernelOutputLocation):
     wave_angle_impact: list[float | None]
     reference_time_degradation: list[float | None]
     reference_degradation: list[float | None]
+
+
+class AsphaltWaveImpactOutputLocation(DikernelOutputLocation):
+    z_position: float
+    outer_slope: float
+    log_flexural_strength: float
+    stiffness_relation: float
+    computational_thickness: float
+    equivalent_elastic_modulus: float
+    maximum_peak_stress: list[float]
+    average_number_of_waves: list[float]
+
+
+class GrassWaveImpactOutputLocation(DikernelOutputLocation):
+    z_position: float
+    minimum_wave_height: float
+    maximum_wave_height: float
+    loading_revetment: list[float]
+    upper_limit_loading: list[float]
+    lower_limit_loading: list[float]
+    wave_angle: list[float | None]
+    wave_angle_impact: list[float | None]
+    wave_height_impact: list[float | None]
+
+
+class GrassWaveRunupOutputLocation(DikernelOutputLocation):
+    z_position: float
+    vertical_distance_water_level_elevation: list[float]
+    representative_wave_runup_2p: list[float]
+    wave_angle: list[float | None]
+    wave_angle_impact: list[float | None]
+    cumulative_overload: list[float]
+    average_number_of_waves: list[float]
+
+
+class GrassCumulativeOverloadOutputLocation(DikernelOutputLocation):
+    z_position: float
+    vertical_distance_water_level_elevation: list[float]
+    representative_wave_runup_2p: list[float]
+    cumulative_overload: list[float]
+    average_number_of_waves: list[float]

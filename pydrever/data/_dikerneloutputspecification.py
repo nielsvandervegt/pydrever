@@ -86,7 +86,16 @@ class GrassWaveImpactLayerSpecification(TopLayerSpecification):
     pass
 
 
-class GrassOvertoppingLayerSpecification(TopLayerSpecification):
+class GrassWaveOvertoppingRayleighDiscreteLayerSpecification(TopLayerSpecification):
+    """
+    Specification of a grass top layer for wave overtopping calculations.
+    """
+
+    increased_load_transition_alpha_m: float | None = None
+    increased_load_transition_alpha_s: float | None = None
+
+
+class GrassWaveOvertoppingRayleighAnalyticalLayerSpecification(TopLayerSpecification):
     """
     Specification of a grass top layer for wave overtopping calculations.
     """
