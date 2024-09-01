@@ -184,14 +184,13 @@ def __add_output_location_specifications_to_builder(
                     ),
                 )
             case NordicStoneLayerSpecification():
-                builder.AddNaturalStoneLocation(
+                builder.AddNaturalStoneWaveImpactLocation(
                     __create_natural_stone_construction_properties(
                         location.x_position,
                         location.top_layer_specification,
                         __get_natural_stone_calculation_settings(location, settings),
                     )
                 )
-
             case GrassWaveImpactLayerSpecification():
                 builder.AddGrassWaveImpactLocation(
                     __create_grass_wave_impact_construction_properties(

@@ -15,8 +15,8 @@ dike_schematization = DikeSchematization(
     x_inner_crest=20.0,
     x_inner_toe=26.0,
 )
-dike_schematization.foreshore_min_z = -5
-dike_schematization.foreshore_slope = 1/100
+# dike_schematization.foreshore_min_z = -5
+# dike_schematization.foreshore_slope = 1/100
 
 from pydrever.data import HydrodynamicConditions
 
@@ -48,14 +48,35 @@ output_time_steps = np.arange(0.0, 126000, 1000)
 output_time_steps = np.union1d(time_steps, output_time_steps)
 input.output_time_steps = output_time_steps
 
+
 input.add_output_location(
-        x_location=10.0, 
+        x_location=16.0,
+        top_layer_specification=NordicStoneLayerSpecification(
+            top_layer_thickness=0.35,
+            relative_density=1.65)
+            )
+
+input.add_output_location(
+        x_location=16.0,
+        top_layer_specification=AsphaltLayerSpecification(
+            top_layer_type = TopLayerType.Asphalt,
+            flexural_strength=0.9, 
+            soil_elasticity=64.0, 
+            upper_layer_thickness=0.146, 
+            upper_layer_elasticity_modulus=5712.0,
+            stiffness_ratio_nu = 0.35,
+            fatigue_asphalt_alpha = 0.5,
+            fatigue_asphalt_beta = 5.4)
+)
+
+input.add_output_location(
+        x_location=16.0, 
         top_layer_specification=GrassWaveImpactLayerSpecification(
             top_layer_type=TopLayerType.GrassClosedSod)
             )
 
 input.add_output_location(
-        x_location=10.0, 
+        x_location=16.0, 
         top_layer_specification=GrassWaveImpactLayerSpecification(
             top_layer_type=TopLayerType.GrassOpenSod)
             )
