@@ -24,18 +24,20 @@ from pydantic import BaseModel, ConfigDict
 class DikeSchematization(BaseModel):
     model_config = ConfigDict(validate_assignment=True)
 
-    dike_orientation: float
     """Orientation of the dike normal relative to North - instance variable."""
-    x_positions: list[float]
+    dike_orientation: float
     """list of cross-shore positions"""
-    z_positions: list[float]
+    x_positions: list[float]
     """list of dike heights in meter correspoinding to the cross-shore positions. zPositions needs to be of the samen length as xPositions"""
-    roughnesses: list[float]
+    z_positions: list[float]
     """a list of roughness coefficients per dike segment. By definition the length of this list is equal to the length of xPositions - 1"""
-    x_outer_toe: float
+    roughnesses: list[float]
+
     """The cross-shore location of the toe of the dike at the outer slope"""
-    x_outer_crest: float
+    x_outer_toe: float
     """The cross-shore location of the (outer) crest of the dike"""
+    x_outer_crest: float
+    """The cross-shore location of the crest of the outer berm"""
     x_crest_outer_berm: float | None = None
     """The cross-shore location of the notch of the outer berm"""
     x_notch_outer_berm: float | None = None
@@ -43,3 +45,8 @@ class DikeSchematization(BaseModel):
     x_inner_crest: float | None = None
     """The cross-shore location of the inner toe of the dike"""
     x_inner_toe: float | None = None
+
+    """Foreshore minimum z"""
+    foreshore_min_z: float | None = None
+    """Foreshore slope (tan alpha)"""
+    foreshore_slope: float | None = None

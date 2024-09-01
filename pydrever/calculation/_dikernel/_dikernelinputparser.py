@@ -56,6 +56,7 @@ def parse(input: DikernelInput) -> ICalculationInput:
     """
     builder = CalculationInputBuilder(input.dike_schematization.dike_orientation)
     __add_dike_profile_to_builder(builder, input.dike_schematization)
+    __add_foreshore_to_builder(builder, input.dike_schematization)
     __add_hydrodynamics_to_builder(builder, input.hydrodynamic_input)
     __add_output_location_specifications_to_builder(builder, input)
     composed_input = builder.Build()
@@ -76,7 +77,7 @@ def __add_dike_profile_to_builder(
         dike_schematization (DikeSchematization): The python object containing the dike schematization
 
     Returns:
-        CalculationInputBuilder[C#]: The C#-typed builder with the added hydrodynamic conditions.
+        CalculationInputBuilder[C#]: The C#-typed builder with the added dike profile.
     """
     for i in range(len(dike_schematization.x_positions) - 1):
         x_start = dike_schematization.x_positions[i]
@@ -117,6 +118,26 @@ def __add_dike_profile_to_builder(
         builder.AddDikeProfilePoint(
             dike_schematization.x_inner_toe, CharacteristicPointType.InnerToe
         )
+
+    return builder
+
+
+def __add_foreshore_to_builder(
+    builder: CalculationInputBuilder, dike_schematization: DikeSchematization
+) -> CalculationInputBuilder:
+    """ This function adds a ForeShore to the C# input builder.
+
+    Args:
+        builder (CalculationInputBuilder): The C# object used to build DiKErnel input
+        dike_schematization (DikeSchematization): The python object containing the dike schematization
+
+    Returns:
+        CalculationInputBuilder[C#]: The C#-typed builder with the added foreshore.
+    """
+    if (dike_schematization.foreshore_slope is not None) and (dike_schematization.foreshore_min_z is not None):
+        builder.AddForeshore(dike_schematization.foreshore_slope, dike_schematization.foreshore_min_z)
+    
+    return builder
 
 
 def __add_hydrodynamics_to_builder(
