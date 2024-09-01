@@ -21,7 +21,7 @@ dike_schematization = DikeSchematization(
 from pydrever.data import HydrodynamicConditions
 
 time_steps = [0.0, 25000.0, 50000.0, 75000.0, 100000.0, 126000.0]
-water_levels = [1.2, 1.9, 2.8, 2.7, 2.0]
+water_levels = [1.8, 1.9, 2.8, 2.7, 2.0]
 wave_heights = [0.5, 0.9, 1.2, 1.1, 0.8]
 wave_periods = [6.0, 6.0, 6.0, 6.0, 6.0]
 wave_directions = [60.0, 70.0, 80.0, 90.0, 100.0]
@@ -40,6 +40,7 @@ from pydrever.data import (
     NordicStoneLayerSpecification,
     AsphaltLayerSpecification,
     GrassWaveImpactLayerSpecification,
+    GrassWaveRunupRayleighDiscreteLayerSpecification,
     GrassWaveOvertoppingRayleighDiscreteLayerSpecification,
     GrassWaveOvertoppingRayleighAnalyticalLayerSpecification,
 )
@@ -51,48 +52,60 @@ output_time_steps = np.union1d(time_steps, output_time_steps)
 input.output_time_steps = output_time_steps
 
 
-input.add_output_location(
-        x_location=16.0,
-        top_layer_specification=NordicStoneLayerSpecification(
-            top_layer_thickness=0.35,
-            relative_density=1.65)
-            )
+# input.add_output_location(
+#         x_location=16.0,
+#         top_layer_specification=NordicStoneLayerSpecification(
+#             top_layer_thickness=0.35,
+#             relative_density=1.65)
+#             )
 
-input.add_output_location(
-        x_location=16.0,
-        top_layer_specification=AsphaltLayerSpecification(
-            top_layer_type = TopLayerType.Asphalt,
-            flexural_strength=0.9, 
-            soil_elasticity=64.0, 
-            upper_layer_thickness=0.146, 
-            upper_layer_elasticity_modulus=5712.0,
-            stiffness_ratio_nu = 0.35,
-            fatigue_asphalt_alpha = 0.5,
-            fatigue_asphalt_beta = 5.4)
-)
+# input.add_output_location(
+#         x_location=16.0,
+#         top_layer_specification=AsphaltLayerSpecification(
+#             top_layer_type = TopLayerType.Asphalt,
+#             flexural_strength=0.9, 
+#             soil_elasticity=64.0, 
+#             upper_layer_thickness=0.146, 
+#             upper_layer_elasticity_modulus=5712.0,
+#             stiffness_ratio_nu = 0.35,
+#             fatigue_asphalt_alpha = 0.5,
+#             fatigue_asphalt_beta = 5.4)
+# )
 
-input.add_output_location(
-        x_location=16.0, 
-        top_layer_specification=GrassWaveImpactLayerSpecification(
-            top_layer_type=TopLayerType.GrassOpenSod)
-            )
+# input.add_output_location(
+#         x_location=16.0, 
+#         top_layer_specification=GrassWaveImpactLayerSpecification(
+#             top_layer_type=TopLayerType.GrassOpenSod)
+#             )
 
-input.add_output_location(
-        x_location=16.0, 
-        top_layer_specification=GrassWaveImpactLayerSpecification(
-            top_layer_type=TopLayerType.GrassOpenSod)
-            )
+# input.add_output_location(
+#         x_location=16.0, 
+#         top_layer_specification=GrassWaveImpactLayerSpecification(
+#             top_layer_type=TopLayerType.GrassOpenSod)
+#             )
 
-input.add_output_location(
-        x_location=18.0, 
-        top_layer_specification=GrassWaveOvertoppingRayleighDiscreteLayerSpecification(
-            top_layer_type=TopLayerType.GrassClosedSod)
-            )
+# input.add_output_location(
+#         x_location=16.0, 
+#         top_layer_specification=GrassWaveRunupRayleighDiscreteLayerSpecification(
+#             top_layer_type=TopLayerType.GrassOpenSod)
+#             )
+
+# input.add_output_location(
+#         x_location=16.0, 
+#         top_layer_specification=GrassWaveRunupBattjesGroenendijkAnalyticalLayerSpecification(
+#             top_layer_type=TopLayerType.GrassClosedSod)
+#             )
+
+# input.add_output_location(
+#         x_location=18.0, 
+#         top_layer_specification=GrassWaveOvertoppingRayleighDiscreteLayerSpecification(
+#             top_layer_type=TopLayerType.GrassClosedSod)
+#             )
 
 input.add_output_location(
         x_location=18.0, 
         top_layer_specification=GrassWaveOvertoppingRayleighAnalyticalLayerSpecification(
-            top_layer_type=TopLayerType.GrassClosedSod)
+            top_layer_type=TopLayerType.GrassOpenSod)
             )
 
 from pydrever.calculation import Dikernel

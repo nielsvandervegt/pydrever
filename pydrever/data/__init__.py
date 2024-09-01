@@ -27,7 +27,7 @@ from ._dikernelcalculationsettings import (
     GrassCumulativeOverloadTopLayerSettings,
     GrassWaveImpactTopLayerSettings,
     GrassWaveImpactCalculationSettings,
-    GrassWaveRunupCalculationSettings,
+    GrassWaveRunupRayleighDiscreteCalculationSettings,
     GrassWaveOvertoppingRayleighDiscreteCalculationSettings,
     GrassWaveOvertoppingRayleighAnalyticalCalculationSettings,
     NaturalStoneCalculationSettings,
@@ -44,7 +44,6 @@ from ._dikerneloutput import (
     NaturalStoneOutputLocation,
     AsphaltWaveImpactOutputLocation,
     GrassWaveImpactOutputLocation,
-    GrassWaveRunupOutputLocation,
     GrassCumulativeOverloadOutputLocation,
 )
 from ._dikerneloutputspecification import (
@@ -53,7 +52,7 @@ from ._dikerneloutputspecification import (
     NordicStoneLayerSpecification,
     AsphaltLayerSpecification,
     GrassWaveImpactLayerSpecification,
-    GrassWaveRunupLayerSpecification,
+    GrassWaveRunupRayleighDiscreteLayerSpecification,
     GrassWaveOvertoppingRayleighDiscreteLayerSpecification,
     GrassWaveOvertoppingRayleighAnalyticalLayerSpecification,
 )

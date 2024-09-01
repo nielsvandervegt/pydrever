@@ -18,12 +18,13 @@
  Deltares and remain full property of Stichting Deltares at all times. All rights reserved.
 """
 
+from math import isnan
+
 from pydrever.data import (
     DikernelOutputLocation,
     NaturalStoneOutputLocation,
     AsphaltWaveImpactOutputLocation,
     GrassWaveImpactOutputLocation,
-    GrassWaveRunupOutputLocation,
     GrassCumulativeOverloadOutputLocation,
 )
 from pydrever.calculation._dikernel._dikernelcreferences import *
@@ -84,10 +85,12 @@ def __create_output_location(
         else None
     )
     damage_development = list(
-        item.Damage for item in c_output_location.TimeDependentOutputItems
+        item.Damage if not isnan(item.Damage) else 0.0
+        for item in c_output_location.TimeDependentOutputItems
     )
     damage_increment = list(
-        item.IncrementDamage for item in c_output_location.TimeDependentOutputItems
+        item.IncrementDamage if not isnan(item.IncrementDamage) else 0.0
+        for item in c_output_location.TimeDependentOutputItems
     )
 
     """
@@ -294,16 +297,19 @@ def __create_grass_cumulative_overload_output_location(
         damage_development=damage_development,
         damage_increment=damage_increment,
         vertical_distance_water_level_elevation=list(
-            item.VerticalDistanceWaterLevelElevation
+            item.VerticalDistanceWaterLevelElevation if item.VerticalDistanceWaterLevelElevation is not None else 0.0 
             for item in time_dependent_output_items
         ),
         representative_wave_runup_2p=list(
-            item.RepresentativeWaveRunup2P for item in time_dependent_output_items
+            item.RepresentativeWaveRunup2P if item.RepresentativeWaveRunup2P is not None else 0.0 
+            for item in time_dependent_output_items
         ),
         cumulative_overload=list(
-            item.CumulativeOverload for item in time_dependent_output_items
+            item.CumulativeOverload if item.CumulativeOverload is not None else 0.0 
+            for item in time_dependent_output_items
         ),
         average_number_of_waves=list(
-            item.AverageNumberOfWaves for item in time_dependent_output_items
+            item.AverageNumberOfWaves if item.AverageNumberOfWaves is not None else 0.0 
+            for item in time_dependent_output_items
         ),
     )

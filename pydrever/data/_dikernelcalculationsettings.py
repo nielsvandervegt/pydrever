@@ -142,8 +142,6 @@ class GrassWaveOvertoppingRayleighAnalyticalCalculationSettings(CalculationSetti
     """The alpha a at the crest of the dike - instance variable."""
     acceleration_alpha_a_for_inner_slope: float | None = None
     """The alpha a at the inner slope of the dike - instance variable."""
-    fixed_number_of_waves: int | None = None
-    """Fixed number of waves - instance variable."""
     front_velocity_c_wo: float | None = None
     """The front velocity constant c of the overtopping wave - instance variable."""
     average_number_of_waves_factor_ctm: float | None = None
@@ -173,7 +171,7 @@ class GrassWaveImpactCalculationSettings(CalculationSettings):
     """Minimum grass resistance time calculated (times shorter than this will be limited to this time)"""
 
 
-class GrassWaveRunupCalculationSettings(CalculationSettings):
+class GrassWaveRunupRayleighDiscreteCalculationSettings(CalculationSettings):
     """
     Class for specification of wave runup calculation settings.
     """

@@ -64,10 +64,10 @@ from DiKErnel.Integration.Data.GrassWaveImpact import (
     GrassWaveImpactLocationDependentOutput,
     GrassWaveImpactLocationConstructionProperties,
 )
-# from DiKErnel.Integration.Data.GrassRevetmentWaveRunup import (
-#     GrassRevetmentWaveRunupRayleighLocationDependentOutput,
-#     GrassRevetmentWaveRunupRayleighLocationConstructionProperties,
-# )
+from DiKErnel.Integration.Data.GrassWaveRunup import (
+    GrassWaveRunupRayleighDiscreteLocationConstructionProperties,
+    GrassWaveRunupBattjesGroenendijkAnalyticalLocationConstructionProperties,
+)
 from DiKErnel.Integration.Data.GrassWaveOvertopping import (
     GrassWaveOvertoppingRayleighDiscreteLocationConstructionProperties,
     GrassWaveOvertoppingRayleighLocationConstructionProperties,

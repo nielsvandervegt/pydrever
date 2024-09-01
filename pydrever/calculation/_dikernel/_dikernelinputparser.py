@@ -22,23 +22,23 @@ from pydrever.data import (
     DikernelInput,
     HydrodynamicConditions,
     DikeSchematization,
-    AsphaltLayerSpecification,
     OutputLocationSpecification,
     NordicStoneLayerSpecification,
+    AsphaltLayerSpecification,
     GrassWaveImpactLayerSpecification,
-    GrassWaveRunupLayerSpecification,
+    GrassWaveRunupRayleighDiscreteLayerSpecification,
     GrassWaveOvertoppingRayleighDiscreteLayerSpecification,
     GrassWaveOvertoppingRayleighAnalyticalLayerSpecification,
     CalculationSettings,
-    AsphaltCalculationSettings,
-    GrassWaveOvertoppingRayleighDiscreteCalculationSettings,
-    GrassWaveOvertoppingRayleighAnalyticalCalculationSettings,
-    GrassWaveImpactCalculationSettings,
-    GrassWaveRunupCalculationSettings,
     NaturalStoneCalculationSettings,
     NaturalStoneTopLayerSettings,
-    GrassCumulativeOverloadTopLayerSettings,
+    AsphaltCalculationSettings,
+    GrassWaveImpactCalculationSettings,
     GrassWaveImpactTopLayerSettings,
+    GrassWaveRunupRayleighDiscreteCalculationSettings,
+    GrassWaveOvertoppingRayleighDiscreteCalculationSettings,
+    GrassWaveOvertoppingRayleighAnalyticalCalculationSettings,
+    GrassCumulativeOverloadTopLayerSettings,
     TopLayerType,
 )
 from pydrever.calculation._dikernel import _inputservices as _input_service
@@ -203,14 +203,14 @@ def __add_output_location_specifications_to_builder(
                         ),
                     )
                 )
-            # case GrassWaveRunupLayerSpecification():
-            #     builder.AddGrassWaveRunupRayleighLocation(
-            #         __create_grass_wave_runup_construction_properties(
-            #             location.x_position,
-            #             location.top_layer_specification,
-            #             __get_grass_wave_runup_calculation_settings(location, settings),
-            #         )
-            #     )
+            case GrassWaveRunupRayleighDiscreteLayerSpecification():
+                builder.AddGrassWaveRunupRayleighDiscreteLocation(
+                    __create_grass_wave_runup_rayleigh_discrete_construction_properties(
+                        location.x_position,
+                        location.top_layer_specification,
+                        __get_grass_wave_runup_rayleigh_discrete_calculation_settings(location, settings),
+                    )
+                )
             case GrassWaveOvertoppingRayleighDiscreteLayerSpecification():
                 builder.AddGrassWaveOvertoppingRayleighDiscreteLocation(
                     __create_grass_wave_overtopping_rayleigh_discrete_construction_properties(
@@ -417,10 +417,10 @@ def __create_grass_wave_impact_construction_properties(
     return properties
 
 
-def __create_grass_wave_runup_construction_properties(
+def __create_grass_wave_runup_rayleigh_discrete_construction_properties(
     x_position: float,
-    layer: GrassWaveRunupLayerSpecification,
-    settings: GrassWaveRunupCalculationSettings,
+    layer: GrassWaveRunupRayleighDiscreteLayerSpecification,
+    settings: GrassWaveRunupRayleighDiscreteCalculationSettings,
 ):
     topLayerType = None
     match layer.top_layer_type:
@@ -429,8 +429,8 @@ def __create_grass_wave_runup_construction_properties(
         case TopLayerType.GrassOpenSod:
             topLayerType = GrassTopLayerType.OpenSod
 
-    properties = GrassRevetmentWaveRunupRayleighLocationConstructionProperties(
-        x_position, layer.outer_slope, topLayerType
+    properties = GrassWaveRunupRayleighDiscreteLocationConstructionProperties(
+        x_position, topLayerType
     )
 
     top_layer = __get_first_grass_cumulative_overload_toplayer_of_type(
@@ -477,6 +477,8 @@ def __create_grass_wave_runup_construction_properties(
     properties.CriticalFrontVelocity = (
         top_layer.critical_front_velocity if top_layer is not None else None
     )
+
+    return properties
 
 
 def __create_grass_wave_overtopping_rayleigh_discrete_construction_properties(
@@ -712,21 +714,21 @@ def __get_grass_wave_impact_calculation_settings(
     )
 
 
-def __get_grass_wave_runup_calculation_settings(
+def __get_grass_wave_runup_rayleigh_discrete_calculation_settings(
     location: OutputLocationSpecification, settings: list[CalculationSettings]
-) -> GrassWaveRunupCalculationSettings:
+) -> GrassWaveRunupRayleighDiscreteCalculationSettings:
     return (
         location.calculation_settings
         if isinstance(
             location.calculation_settings,
-            GrassWaveRunupCalculationSettings,
+            GrassWaveRunupRayleighDiscreteCalculationSettings,
         )
         else (
             next(
                 (
                     ci
                     for ci in settings
-                    if isinstance(ci, GrassWaveRunupCalculationSettings)
+                    if isinstance(ci, GrassWaveRunupRayleighDiscreteCalculationSettings)
                 ),
                 None,
             )

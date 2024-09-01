@@ -86,6 +86,17 @@ class GrassWaveImpactLayerSpecification(TopLayerSpecification):
     pass
 
 
+class GrassWaveRunupRayleighDiscreteLayerSpecification(TopLayerSpecification):
+    """
+    Specification of a grass top layer for wave runup calculations.
+    """
+
+    increased_load_transition_alpha_m: float | None = None
+    increased_load_transition_alpha_s: float | None = None
+    reduced_strength_transition_2p_gamma_b: float | None = None
+    reduced_strength_transition_2p_gamma_f: float | None = None
+
+
 class GrassWaveOvertoppingRayleighDiscreteLayerSpecification(TopLayerSpecification):
     """
     Specification of a grass top layer for wave overtopping calculations.
@@ -102,15 +113,3 @@ class GrassWaveOvertoppingRayleighAnalyticalLayerSpecification(TopLayerSpecifica
 
     increased_load_transition_alpha_m: float | None = None
     increased_load_transition_alpha_s: float | None = None
-
-
-class GrassWaveRunupLayerSpecification(TopLayerSpecification):
-    """
-    Specification of a grass top layer for wave runup calculations.
-    """
-
-    outer_slope: float
-    increased_load_transition_alpha_m: float | None = None
-    increased_load_transition_alpha_s: float | None = None
-    reduced_strength_transition_2p_gamma_b: float | None = None
-    reduced_strength_transition_2p_gamma_f: float | None = None

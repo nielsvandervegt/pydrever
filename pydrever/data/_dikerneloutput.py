@@ -94,16 +94,6 @@ class GrassWaveImpactOutputLocation(DikernelOutputLocation):
     wave_height_impact: list[float | None]
 
 
-class GrassWaveRunupOutputLocation(DikernelOutputLocation):
-    z_position: float
-    vertical_distance_water_level_elevation: list[float]
-    representative_wave_runup_2p: list[float]
-    wave_angle: list[float | None]
-    wave_angle_impact: list[float | None]
-    cumulative_overload: list[float]
-    average_number_of_waves: list[float]
-
-
 class GrassCumulativeOverloadOutputLocation(DikernelOutputLocation):
     z_position: float
     vertical_distance_water_level_elevation: list[float]
