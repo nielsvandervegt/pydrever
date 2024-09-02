@@ -162,3 +162,5 @@ cython_debug/
 # Niels
 tijdsreeks.py
 tijdsreeks/
+test.py
+test2.py
