@@ -23,19 +23,6 @@ from pydrever.data._toplayertypes import TopLayerType
 from pydantic import BaseModel, ConfigDict
 
 
-class CalculationSettings(BaseModel):
-    """
-    Base class for specification of calculation settings.
-    """
-
-    model_config = ConfigDict(validate_assignment=True)
-
-    failure_number: float | None = None
-    """The damage number that is considered to indicate failure of the revetment - instance variable."""
-    top_layers_settings: list[TopLayerSettings] | None = None
-    """Calculation settings specific for this type of top layer - instance variable."""
-
-
 class TopLayerSettings(BaseModel):
     """
     Base class for specification of a top layer.
