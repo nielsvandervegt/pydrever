@@ -24,15 +24,15 @@ from ._quantities import TimeDependentOutputQuantity
 from ._dikernelcalculationsettings import (
     AsphaltCalculationSettings,
     CalculationSettings,
+    TopLayerSettings,
+    NaturalStoneCalculationSettings,
+    NaturalStoneTopLayerSettings,
     GrassCumulativeOverloadTopLayerSettings,
-    GrassWaveImpactTopLayerSettings,
     GrassWaveImpactCalculationSettings,
+    GrassWaveImpactTopLayerSettings,
     GrassWaveRunupRayleighDiscreteCalculationSettings,
     GrassWaveOvertoppingRayleighDiscreteCalculationSettings,
     GrassWaveOvertoppingRayleighAnalyticalCalculationSettings,
-    NaturalStoneCalculationSettings,
-    NaturalStoneTopLayerSettings,
-    TopLayerSettings,
 )
 from ._dikernelinput import (
     DikernelInput,

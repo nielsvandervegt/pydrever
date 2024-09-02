@@ -23,23 +23,23 @@ from pydrever.data import (
     HydrodynamicConditions,
     DikeSchematization,
     OutputLocationSpecification,
-    NordicStoneLayerSpecification,
-    AsphaltLayerSpecification,
-    GrassWaveImpactLayerSpecification,
-    GrassWaveRunupRayleighDiscreteLayerSpecification,
-    GrassWaveOvertoppingRayleighDiscreteLayerSpecification,
-    GrassWaveOvertoppingRayleighAnalyticalLayerSpecification,
     CalculationSettings,
+    TopLayerType,
+    NordicStoneLayerSpecification,
     NaturalStoneCalculationSettings,
     NaturalStoneTopLayerSettings,
+    AsphaltLayerSpecification,
     AsphaltCalculationSettings,
+    GrassWaveImpactLayerSpecification,
     GrassWaveImpactCalculationSettings,
     GrassWaveImpactTopLayerSettings,
+    GrassCumulativeOverloadTopLayerSettings,
+    GrassWaveRunupRayleighDiscreteLayerSpecification,
     GrassWaveRunupRayleighDiscreteCalculationSettings,
+    GrassWaveOvertoppingRayleighDiscreteLayerSpecification,
+    GrassWaveOvertoppingRayleighAnalyticalLayerSpecification,
     GrassWaveOvertoppingRayleighDiscreteCalculationSettings,
     GrassWaveOvertoppingRayleighAnalyticalCalculationSettings,
-    GrassCumulativeOverloadTopLayerSettings,
-    TopLayerType,
 )
 from pydrever.calculation._dikernel import _inputservices as _input_service
 from pydrever.calculation._dikernel import _messagehelper as _message_helper
@@ -234,49 +234,6 @@ def __add_output_location_specifications_to_builder(
     return builder
 
 
-def __create_asphalt_wave_impact_construction_properties(
-    x_position: float,
-    layer: AsphaltLayerSpecification,
-    settings: AsphaltCalculationSettings,
-):
-    properties = AsphaltWaveImpactLocationConstructionProperties(
-        x_position,
-        AsphaltWaveImpactTopLayerType.HydraulicAsphaltConcrete,
-        layer.flexural_strength,
-        layer.soil_elasticity,
-        layer.upper_layer_thickness,
-        layer.upper_layer_elasticity_modulus,
-    )
-
-    properties.InitialDamage = layer.initial_damage
-    properties.FailureNumber = settings.failure_number if settings is not None else None
-    properties.DensityOfWater = (
-        settings.density_of_water if settings is not None else None
-    )
-    properties.ThicknessSubLayer = layer.sub_layer_thickness
-    properties.ElasticModulusSubLayer = layer.sub_layer_elastic_modulus
-    properties.AverageNumberOfWavesCtm = (
-        settings.factor_ctm if settings is not None else None
-    )
-    properties.FatigueAlpha = layer.fatigue_asphalt_alpha
-    properties.FatigueBeta = layer.fatigue_asphalt_beta
-    properties.ImpactNumberC = (
-        settings.impact_number_c if settings is not None else None
-    )
-    properties.StiffnessRelationNu = layer.stiffness_ratio_nu
-    properties.WidthFactors = (
-        __convert_to_cList(settings.width_factors) if settings is not None else None
-    )
-    properties.DepthFactors = (
-        __convert_to_cList(settings.depth_factors) if settings is not None else None
-    )
-    properties.ImpactFactors = (
-        __convert_to_cList(settings.impact_factors) if settings is not None else None
-    )
-
-    return properties
-
-
 def __create_natural_stone_construction_properties(
     x_position: float,
     layer: NordicStoneLayerSpecification,
@@ -358,6 +315,49 @@ def __create_natural_stone_construction_properties(
     )
     properties.WaveAngleImpactBetamax = (
         settings.wave_angle_impact_beta_max if settings is not None else None
+    )
+
+    return properties
+
+
+def __create_asphalt_wave_impact_construction_properties(
+    x_position: float,
+    layer: AsphaltLayerSpecification,
+    settings: AsphaltCalculationSettings,
+):
+    properties = AsphaltWaveImpactLocationConstructionProperties(
+        x_position,
+        AsphaltWaveImpactTopLayerType.HydraulicAsphaltConcrete,
+        layer.flexural_strength,
+        layer.soil_elasticity,
+        layer.upper_layer_thickness,
+        layer.upper_layer_elasticity_modulus,
+    )
+
+    properties.InitialDamage = layer.initial_damage
+    properties.FailureNumber = settings.failure_number if settings is not None else None
+    properties.DensityOfWater = (
+        settings.density_of_water if settings is not None else None
+    )
+    properties.ThicknessSubLayer = layer.sub_layer_thickness
+    properties.ElasticModulusSubLayer = layer.sub_layer_elastic_modulus
+    properties.AverageNumberOfWavesCtm = (
+        settings.factor_ctm if settings is not None else None
+    )
+    properties.FatigueAlpha = layer.fatigue_asphalt_alpha
+    properties.FatigueBeta = layer.fatigue_asphalt_beta
+    properties.ImpactNumberC = (
+        settings.impact_number_c if settings is not None else None
+    )
+    properties.StiffnessRelationNu = layer.stiffness_ratio_nu
+    properties.WidthFactors = (
+        __convert_to_cList(settings.width_factors) if settings is not None else None
+    )
+    properties.DepthFactors = (
+        __convert_to_cList(settings.depth_factors) if settings is not None else None
+    )
+    properties.ImpactFactors = (
+        __convert_to_cList(settings.impact_factors) if settings is not None else None
     )
 
     return properties

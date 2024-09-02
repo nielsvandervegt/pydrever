@@ -23,6 +23,19 @@ from pydrever.data._toplayertypes import TopLayerType
 from pydantic import BaseModel, ConfigDict
 
 
+class CalculationSettings(BaseModel):
+    """
+    Base class for specification of calculation settings.
+    """
+
+    model_config = ConfigDict(validate_assignment=True)
+
+    failure_number: float | None = None
+    """The damage number that is considered to indicate failure of the revetment - instance variable."""
+    top_layers_settings: list[TopLayerSettings] | None = None
+    """Calculation settings specific for this type of top layer - instance variable."""
+
+
 class TopLayerSettings(BaseModel):
     """
     Base class for specification of a top layer.
@@ -34,28 +47,24 @@ class TopLayerSettings(BaseModel):
     """The type of the top layer - instance variable."""
 
 
-class GrassCumulativeOverloadTopLayerSettings(TopLayerSettings):
+class NaturalStoneCalculationSettings(CalculationSettings):
     """
-    Specification for a grass cover cumulative overload calculations.
-    """
-
-    critical_cumulative_overload: float | None = None
-    """The critical cumulative overload - instance variable."""
-    critical_front_velocity: float | None = None
-    """The critical front velocity - instance variable."""
-
-
-class GrassWaveImpactTopLayerSettings(TopLayerSettings):
-    """
-    Specification for a grass cover wave impact calculation.
+    Class for specification of natural stone calculation settings.
     """
 
-    stance_time_line_a: float | None = None
-    """The stance time line constant a - instance variable."""
-    stance_time_line_b: float | None = None
-    """The stance time line constant b - instance variable."""
-    stance_time_line_c: float | None = None
-    """The stance time line constant c - instance variable."""
+    distance_maximum_wave_elevation_a: float | None = None
+    distance_maximum_wave_elevation_b: float | None = None
+    slope_upper_level: float | None = None
+    sLope_lower_level: float | None = None
+    normative_width_of_wave_impact_a: float | None = None
+    normative_width_of_wave_impact_b: float | None = None
+    upper_limit_loading_a: float | None = None
+    upper_limit_loading_b: float | None = None
+    upper_limit_loading_c: float | None = None
+    lower_limit_loading_a: float | None = None
+    lower_limit_loading_b: float | None = None
+    lower_limit_loading_c: float | None = None
+    wave_angle_impact_beta_max: float | None = None
 
 
 class NaturalStoneTopLayerSettings(TopLayerSettings):
@@ -82,19 +91,6 @@ class NaturalStoneTopLayerSettings(TopLayerSettings):
     xib: float | None = None
 
 
-class CalculationSettings(BaseModel):
-    """
-    Base class for specification of calculation settings.
-    """
-
-    model_config = ConfigDict(validate_assignment=True)
-
-    failure_number: float | None = None
-    """The damage number that is considered to indicate failure of the revetment - instance variable."""
-    top_layers_settings: list[TopLayerSettings] | None = None
-    """Calculation settings specific for this type of top layer - instance variable."""
-
-
 class AsphaltCalculationSettings(CalculationSettings):
     """
     Class for specification of asphalt calculation settings.
@@ -112,6 +108,67 @@ class AsphaltCalculationSettings(CalculationSettings):
     """A list of depth factors - instance variable."""
     impact_factors: list[list[float]] | None = None
     """A list of impact factors - instance variable."""
+
+
+class GrassWaveImpactCalculationSettings(CalculationSettings):
+    """
+    Class for specification of wave impact calculation settings.
+    """
+
+    loading_upper_limit: float | None = None
+    """Fraction of the wave height that is added to the water level to determine the loading zone upper limit - instance variable."""
+    loading_lower_limit: float | None = None
+    """Fraction of the wave height that is subtracted from the water level to determine the loading zone lower limit - instance variable."""
+    wave_angle_impact_n: float | None = None
+    """Wave angle impact constant n - instance variable."""
+    wave_angle_impact_q: float | None = None
+    """Wave angle impact constant q - instance variable."""
+    wave_angle_impact_r: float | None = None
+    """Wave angle impact constant r - instance variable."""
+    te_max: float | None = None
+    """Maximum grass resistance time calculated (to avoid division by 0 all higher values will be limited to this resistance time)."""
+    te_min: float | None = None
+    """Minimum grass resistance time calculated (times shorter than this will be limited to this time)"""
+
+
+class GrassWaveImpactTopLayerSettings(TopLayerSettings):
+    """
+    Specification for a grass cover wave impact calculation.
+    """
+
+    stance_time_line_a: float | None = None
+    """The stance time line constant a - instance variable."""
+    stance_time_line_b: float | None = None
+    """The stance time line constant b - instance variable."""
+    stance_time_line_c: float | None = None
+    """The stance time line constant c - instance variable."""
+
+
+class GrassCumulativeOverloadTopLayerSettings(TopLayerSettings):
+    """
+    Specification for a grass cover cumulative overload calculations.
+    """
+
+    critical_cumulative_overload: float | None = None
+    """The critical cumulative overload - instance variable."""
+    critical_front_velocity: float | None = None
+    """The critical front velocity - instance variable."""
+
+
+class GrassWaveRunupRayleighDiscreteCalculationSettings(CalculationSettings):
+    """
+    Class for specification of wave runup calculation settings.
+    """
+
+    average_number_of_waves_factor_ctm: float = None
+    """The ctm factor - instance variable."""
+    representative_wave_runup_2p_aru: float | None = None
+    representative_wave_runup_2p_bru: float | None = None
+    representative_wave_runup_2p_cru: float | None = None
+    wave_angle_impact_a_beta: float | None = None
+    wave_angle_impact_beta_max: float | None = None
+    fixed_number_of_waves: int | None = None
+    front_velocity_cu: float | None = None
 
 
 class GrassWaveOvertoppingRayleighDiscreteCalculationSettings(CalculationSettings):
@@ -148,60 +205,3 @@ class GrassWaveOvertoppingRayleighAnalyticalCalculationSettings(CalculationSetti
     """The ctm factor - instance variable."""
     dike_height: float | None = None
     """The height of the dike used in the overtopping calculation - instance variable."""
-
-
-class GrassWaveImpactCalculationSettings(CalculationSettings):
-    """
-    Class for specification of wave impact calculation settings.
-    """
-
-    loading_upper_limit: float | None = None
-    """Fraction of the wave height that is added to the water level to determine the loading zone upper limit - instance variable."""
-    loading_lower_limit: float | None = None
-    """Fraction of the wave height that is subtracted from the water level to determine the loading zone lower limit - instance variable."""
-    wave_angle_impact_n: float | None = None
-    """Wave angle impact constant n - instance variable."""
-    wave_angle_impact_q: float | None = None
-    """Wave angle impact constant q - instance variable."""
-    wave_angle_impact_r: float | None = None
-    """Wave angle impact constant r - instance variable."""
-    te_max: float | None = None
-    """Maximum grass resistance time calculated (to avoid division by 0 all higher values will be limited to this resistance time)."""
-    te_min: float | None = None
-    """Minimum grass resistance time calculated (times shorter than this will be limited to this time)"""
-
-
-class GrassWaveRunupRayleighDiscreteCalculationSettings(CalculationSettings):
-    """
-    Class for specification of wave runup calculation settings.
-    """
-
-    average_number_of_waves_factor_ctm: float = None
-    """The ctm factor - instance variable."""
-    representative_wave_runup_2p_aru: float | None = None
-    representative_wave_runup_2p_bru: float | None = None
-    representative_wave_runup_2p_cru: float | None = None
-    wave_angle_impact_a_beta: float | None = None
-    wave_angle_impact_beta_max: float | None = None
-    fixed_number_of_waves: int | None = None
-    front_velocity_cu: float | None = None
-
-
-class NaturalStoneCalculationSettings(CalculationSettings):
-    """
-    Class for specification of natural stone calculation settings.
-    """
-
-    distance_maximum_wave_elevation_a: float | None = None
-    distance_maximum_wave_elevation_b: float | None = None
-    slope_upper_level: float | None = None
-    sLope_lower_level: float | None = None
-    normative_width_of_wave_impact_a: float | None = None
-    normative_width_of_wave_impact_b: float | None = None
-    upper_limit_loading_a: float | None = None
-    upper_limit_loading_b: float | None = None
-    upper_limit_loading_c: float | None = None
-    lower_limit_loading_a: float | None = None
-    lower_limit_loading_b: float | None = None
-    lower_limit_loading_c: float | None = None
-    wave_angle_impact_beta_max: float | None = None

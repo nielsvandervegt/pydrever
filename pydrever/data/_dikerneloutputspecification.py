@@ -52,6 +52,17 @@ class OutputLocationSpecification(BaseModel):
     """[CalculationSettings] The calculation settings that need to be used for this calculation"""
 
 
+class NordicStoneLayerSpecification(TopLayerSpecification):
+    """
+    Specification of a nordic stone top layer.
+    """
+
+    top_layer_thickness: float
+    """Thickness of the top layer in meters."""
+    relative_density: float
+    """Relative density of the stone material."""
+
+
 class AsphaltLayerSpecification(TopLayerSpecification):
     flexural_strength: float
     soil_elasticity: float
@@ -65,17 +76,6 @@ class AsphaltLayerSpecification(TopLayerSpecification):
     """The fatigue constant beta of the asphalt top layer - instance variable."""
     stiffness_ratio_nu: float | None = None
     """The stiffness ratio nu of the asphalt top layer - instance variable."""
-
-
-class NordicStoneLayerSpecification(TopLayerSpecification):
-    """
-    Specification of a nordic stone top layer.
-    """
-
-    top_layer_thickness: float
-    """Thickness of the top layer in meters."""
-    relative_density: float
-    """Relative density of the stone material."""
 
 
 class GrassWaveImpactLayerSpecification(TopLayerSpecification):
