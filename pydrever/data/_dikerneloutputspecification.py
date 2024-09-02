@@ -24,19 +24,6 @@ from pydrever.data._dikernelcalculationsettings import CalculationSettings
 from pydantic import BaseModel, ConfigDict
 
 
-class TopLayerSpecification(BaseModel):
-    """
-    Base class to specify the toplayer characteristics and desired calculations.
-    """
-
-    model_config = ConfigDict(validate_assignment=True)
-
-    top_layer_type: TopLayerType | None = None
-    """[TopLayerType] The type of toplayer at this location - instance variable"""
-    initial_damage: float | None = None
-    """[float] The type of toplayer at this location - instance variable"""
-
-
 class OutputLocationSpecification(BaseModel):
     """
     class to specify the desired calculations and output.
@@ -52,6 +39,30 @@ class OutputLocationSpecification(BaseModel):
     """[CalculationSettings] The calculation settings that need to be used for this calculation"""
 
 
+class TopLayerSpecification(BaseModel):
+    """
+    Base class to specify the toplayer characteristics and desired calculations.
+    """
+
+    model_config = ConfigDict(validate_assignment=True)
+
+    top_layer_type: TopLayerType | None = None
+    """[TopLayerType] The type of toplayer at this location - instance variable"""
+    initial_damage: float | None = None
+    """[float] The type of toplayer at this location - instance variable"""
+
+
+class NordicStoneLayerSpecification(TopLayerSpecification):
+    """
+    Specification of a nordic stone top layer.
+    """
+
+    top_layer_thickness: float
+    """Thickness of the top layer in meters."""
+    relative_density: float
+    """Relative density of the stone material."""
+
+
 class AsphaltLayerSpecification(TopLayerSpecification):
     flexural_strength: float
     soil_elasticity: float
@@ -65,17 +76,6 @@ class AsphaltLayerSpecification(TopLayerSpecification):
     """The fatigue constant beta of the asphalt top layer - instance variable."""
     stiffness_ratio_nu: float | None = None
     """The stiffness ratio nu of the asphalt top layer - instance variable."""
-
-
-class NordicStoneLayerSpecification(TopLayerSpecification):
-    """
-    Specification of a nordic stone top layer.
-    """
-
-    top_layer_thickness: float
-    """Thickness of the top layer in meters."""
-    relative_density: float
-    """Relative density of the stone material."""
 
 
 class GrassWaveImpactLayerSpecification(TopLayerSpecification):

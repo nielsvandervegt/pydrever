@@ -26,6 +26,7 @@ import pydrever.calculation._dikernel._inputservices as _input_services
 import pydrever.calculation._dikernel._messagehelper as _message_helper
 import pydrever.calculation._dikernel._validationhelper as _validation_helper
 import numpy as numpy
+import time
 
 
 class Dikernel:
@@ -59,9 +60,23 @@ class Dikernel:
             return False
 
         try:
+            # Init calculator
             calculator = Calculator(self.__c_input)
-            calculator.WaitForCompletion()
 
+            # Print progress
+            time_start = time.time()
+            while calculator.Progress < 100:
+                progress = calculator.Progress
+                time_elapsed = time.time() - time_start
+                time_left = ""
+                if progress != 0:
+                    time_left = f", about {round(((time_elapsed * 100 / progress) - time_elapsed) / 60, 2)} min left"
+                print(f"Progress: {progress}% ({round(time_elapsed / 60, 2)} min elapsed{time_left})", end="\r")
+                time.sleep(1)
+            calculator.WaitForCompletion()
+            print("Progress: Done!")
+
+            # Obtain result
             self.__c_output = calculator.Result
 
             warnings, errors = _message_helper.parse_messages(self.__c_output)

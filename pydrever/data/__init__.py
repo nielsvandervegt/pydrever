@@ -22,17 +22,17 @@ from ._toplayertypes import TopLayerType
 from ._quantities import TimeDependentOutputQuantity
 
 from ._dikernelcalculationsettings import (
-    AsphaltCalculationSettings,
     CalculationSettings,
-    GrassCumulativeOverloadTopLayerSettings,
+    TopLayerSettings,
+    NaturalStoneTopLayerSettings,
+    NaturalStoneCalculationSettings,
+    AsphaltCalculationSettings,
     GrassWaveImpactTopLayerSettings,
     GrassWaveImpactCalculationSettings,
+    GrassCumulativeOverloadTopLayerSettings,
     GrassWaveRunupRayleighDiscreteCalculationSettings,
     GrassWaveOvertoppingRayleighDiscreteCalculationSettings,
     GrassWaveOvertoppingRayleighAnalyticalCalculationSettings,
-    NaturalStoneCalculationSettings,
-    NaturalStoneTopLayerSettings,
-    TopLayerSettings,
 )
 from ._dikernelinput import (
     DikernelInput,

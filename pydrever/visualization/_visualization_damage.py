@@ -23,10 +23,10 @@ import numpy as numpy
 from pydrever.data import (
     DikernelInput,
     DikernelOutputLocation,
-    AsphaltWaveImpactOutputLocation,
-    GrassWaveOvertoppingRayleighAnalyticalLayerSpecification,
-    GrassWaveImpactOutputLocation,
     NaturalStoneOutputLocation,
+    AsphaltWaveImpactOutputLocation,
+    GrassWaveImpactOutputLocation,
+    GrassCumulativeOverloadOutputLocation,
     TimeDependentOutputQuantity,
 )
 import pydrever.calculation._dikernel._inputservices as _input_services
@@ -251,14 +251,14 @@ def plot_development_per_location(
 
     color = "black"
     match location:
-        case AsphaltWaveImpactOutputLocation():
-            color = "gray"
-        case GrassWaveOvertoppingRayleighAnalyticalLayerSpecification():
-            color = "darkgreen"
-        case GrassWaveImpactOutputLocation():
-            color = "darkgreen"
         case NaturalStoneOutputLocation():
             color = "black"
+        case AsphaltWaveImpactOutputLocation():
+            color = "gray"
+        case GrassWaveImpactOutputLocation():
+            color = "darkgreen"
+        case GrassCumulativeOverloadOutputLocation():
+            color = "darkgreen"
 
     ax = plt.subplot(111)
     ax.grid()
